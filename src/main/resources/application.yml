@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: gym-api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: clases-service
+          uri: http://localhost:8084/
+          predicates:
+            - Path=/api/clase/**
+        - id: entrenadores-service
+          uri: http://localhost:8081/
+          predicates:
+              - Path=/api/entrenador/**
+
+server:
+  port:  8087
+  servlet:
+    context-path: /api
+
