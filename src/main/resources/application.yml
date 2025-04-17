@@ -1,20 +1,35 @@
+server:
+  port: 8087
+  servlet:
+    context-path: /api
+
 spring:
   application:
     name: gym-api-gateway
+
   cloud:
     gateway:
       routes:
         - id: clases-service
-          uri: http://localhost:8084/
+          uri: lb://clases-service
           predicates:
-            - Path=/api/clase/**
+            - Path=/clase/**
         - id: entrenadores-service
-          uri: http://localhost:8081/
+          uri: lb://microservicio-entrenador
           predicates:
-              - Path=/api/entrenador/**
+            - Path=/entrenador/**
+        - id: miembros-service
+          uri: lb://microservicio-miembro
+          predicates:
+            - Path=/miembros/**
+        - id: equipamientos-service
+          uri: lb://equipment-service
+          predicates:
+            - Path=/equipos/**
 
-server:
-  port:  8087
-  servlet:
-    context-path: /api
-
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
