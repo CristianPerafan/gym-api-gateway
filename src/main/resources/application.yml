@@ -11,9 +11,9 @@ spring:
     gateway:
       routes:
         - id: clases-service
-          uri: lb://clases-service
+          uri: lb://microservicio-clase
           predicates:
-            - Path=/clase/**
+            - Path=/api/clase/**
         - id: entrenadores-service
           uri: lb://microservicio-entrenador
           predicates:
@@ -21,7 +21,7 @@ spring:
         - id: miembros-service
           uri: lb://microservicio-miembro
           predicates:
-            - Path=/miembros/**
+            - Path=/api/miembros/**
         - id: equipamientos-service
           uri: lb://equipment-service
           predicates:
@@ -33,3 +33,15 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web.reactive.function.client.ExchangeFunctions: DEBUG
+
+
+gateway:
+  urls:
+    miembros: http://localhost:8082
+    clases: http://microservicio-clase
+    entrenadores: http://microservicio-entrenador
